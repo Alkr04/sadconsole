@@ -19,4 +19,16 @@ static void Startup(object? sender, GameHost host)
         throw new NullReferenceException("You should never have this error if you used the UseDefaultConsole startup code.");
 
     Console startingConsole = Game.Instance.StartingConsole;
+
+    startingConsole.Cursor.PrintAppearanceMatchesHost = false;
+
+    startingConsole.Cursor
+        .SetPrintAppearanceToHost()
+        .Move(0, 21)
+        .Print("kato is my favorit dog")
+        .SetPrintAppearance(Color.Green)
+        .NewLine()
+        .Print("No, Birdie is my favorite dog");
+    startingConsole.Cursor.IsVisible = true;
+    startingConsole.Cursor.IsEnabled = true;
 }
