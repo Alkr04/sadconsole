@@ -51,6 +51,7 @@ static void Startup(object? sender, GameHost host)
     console2.Cursor.IsVisible = true;
     console2.FocusOnMouseClick = true;
     console2.MoveToFrontOnMouseClick = true;
+    console2.Cursor.MouseClickReposition = true;
 
     container.Children.Add(console2);
     container.Children.MoveToBottom(console2);
