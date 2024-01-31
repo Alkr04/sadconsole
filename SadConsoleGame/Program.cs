@@ -5,7 +5,6 @@ Settings.WindowTitle = "My SadConsole Game";
 
 Builder configuration = new Builder()
     .SetScreenSize(90, 30)
-    .UseDefaultConsole()
     .OnStart(Startup)
     ;
 
@@ -15,20 +14,26 @@ Game.Instance.Dispose();
 
 static void Startup(object? sender, GameHost host)
 {
-    if (Game.Instance.StartingConsole is null)
-        throw new NullReferenceException("You should never have this error if you used the UseDefaultConsole startup code.");
+    ScreenObject container = new ScreenObject();
+    Game.Instance.Screen = container;
 
-    Console startingConsole = Game.Instance.StartingConsole;
+    Console console1 = new(60, 14);
+    console1.Position = (3, 2);
+    console1.Surface.DefaultBackground = Color.AnsiCyan;
+    console1.Clear();
+    console1.Print(1, 1, "type on me!");
+    console1.Cursor.Position = (1, 2);
+    console1.Cursor.IsEnabled = true;
+    console1.Cursor.IsVisible = true;
+    console1.Cursor.MouseClickReposition = true;
+    console1.IsFocused = true;
 
-    startingConsole.Cursor.PrintAppearanceMatchesHost = false;
+    container.Children.Add(console1);
 
-    startingConsole.Cursor
-        .SetPrintAppearanceToHost()
-        .Move(0, 21)
-        .Print("kato is my favorit dog")
-        .SetPrintAppearance(Color.Green)
-        .NewLine()
-        .Print("No, Birdie is my favorite dog");
-    startingConsole.Cursor.IsVisible = true;
-    startingConsole.Cursor.IsEnabled = true;
+    ScreenSurface surfaceobject = new(5, 3);
+    surfaceobject.Surface.FillWithRandomGarbage(surfaceobject.Font);
+    surfaceobject.Position = console1.Surface.Area.Center - (surfaceobject.Surface.Area.Size / 2);
+    surfaceobject.UseMouse = false;
+
+    console1.Children.Add(surfaceobject);
 }
