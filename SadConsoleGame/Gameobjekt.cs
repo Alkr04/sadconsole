@@ -26,16 +26,20 @@ namespace SadConsoleGame
             Apperance.CopyAppearanceTo(screenSurface.Surface[Position]);
             screenSurface.IsDirty = true;
         }
-        public bool Move(Point newPosition, IScreenSurface screenSurface)
+        public bool Move(Point newPosition, Map map)
         {
-            if (!screenSurface.Surface.IsValidCell(newPosition.X, newPosition.Y)) return false;
-            _mapApperance.CopyAppearanceTo(screenSurface.Surface[Position]);
-            screenSurface.Surface[newPosition].CopyAppearanceTo(_mapApperance);
+            if (!map.SurfaceObject.Surface.IsValidCell(newPosition.X, newPosition.Y)) return false;
+            _mapApperance.CopyAppearanceTo(map.SurfaceObject.Surface[Position]);
+            map.SurfaceObject.Surface[newPosition].CopyAppearanceTo(_mapApperance);
 
             Position = newPosition;
-            DrawGameObjekt(screenSurface);
+            DrawGameObjekt(map.SurfaceObject);
 
             return true;
+        }
+        public virtual bool touched(Gameobjekt sorce, Map map)
+        {
+            return false;
         }
 
     }

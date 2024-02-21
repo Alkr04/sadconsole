@@ -9,19 +9,26 @@ namespace SadConsoleGame
 {
     internal class Map
     {
+        private List<Gameobjekt> _mapobjekts;
         private ScreenSurface _mapSurface;
 
+
+        public IReadOnlyList<Gameobjekt> gameobjekts => _mapobjekts.AsReadOnly();
         public ScreenSurface SurfaceObject => _mapSurface;
         public Gameobjekt UserControlledObject { get; set; }
 
         public Map(int mapWidth, int mapHeight)
         {
+            _mapobjekts = new List<Gameobjekt>();
             _mapSurface = new ScreenSurface(mapWidth, mapHeight);
             _mapSurface.UseMouse = false;
 
             FillBackground();
 
             UserControlledObject = new Gameobjekt(new ColoredGlyph(Color.White, Color.Black, 2), _mapSurface.Surface.Area.Center, _mapSurface);
+
+            CreateTreasure();
+            CreateMonster();
         }
 
         private void FillBackground()
@@ -36,6 +43,38 @@ namespace SadConsoleGame
                                     _mapSurface.Surface.Area,
                                     new Gradient(colors, colorStops),
                                     (x, y, color) => _mapSurface.Surface[x, y].Background = color);
+        }
+        private void CreateTreasure()
+        {
+            for (int i = 1; i < 100; i++)
+            {
+                Point randomPosition = new Point(Game.Instance.Random.Next(0, _mapSurface.Surface.Width), Game.Instance.Random.Next(0, _mapSurface.Height));
+
+                bool foundobjekt = _mapobjekts.Any(obj => obj.Position == randomPosition);
+                if (foundobjekt) continue;
+
+                Gameobjekt treasur = new Gameobjekt(new ColoredGlyph(Color.Yellow, Color.Black, 'v'), randomPosition, _mapSurface);
+                _mapobjekts.Add(treasur);
+                break;
+            }
+        }
+        private void CreateMonster()
+        {
+            for (int i = 0; 1 < 100; i++)
+            {
+                Point randomPosition = new Point(Game.Instance.Random.Next(0, _mapSurface.Surface.Width), Game.Instance.Random.Next(0, _mapSurface.Height));
+
+                bool foundobjekt = _mapobjekts.Any(obj => obj.Position == randomPosition);
+                if (foundobjekt) continue;
+
+                Gameobjekt monster = new Gameobjekt(new ColoredGlyph(Color.Red, Color.Black, 'M'), randomPosition, _mapSurface);
+                _mapobjekts.Add(monster);
+                break;
+            }
+        }
+        public bool trygetmapobjekt(Point position, [NotNullWhen(true)] out Gameobjekt? gameobjekt)
+        {
+
         }
     }
 }

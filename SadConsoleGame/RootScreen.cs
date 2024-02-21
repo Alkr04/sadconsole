@@ -10,7 +10,7 @@ namespace SadConsoleGame;
 internal class RootScreen : ScreenObject
 {
     private Map  _map;
-    private Gameobjekt _controlledobject;
+
     public RootScreen()
     {
         _map = new Map(Game.Instance.ScreenCellsX, Game.Instance.ScreenCellsY - 5);
@@ -23,20 +23,23 @@ internal class RootScreen : ScreenObject
         bool handeled = false;
         if (keyboard.IsKeyPressed(Keys.W))
         {
-            _controlledobject.Move(_controlledobject.Position + Direction.Up, _map.SurfaceObject);
-            handeled = false;
+            _map.UserControlledObject.Move(_map.UserControlledObject.Position + Direction.Up, _map);
+            handeled = true;
         }
         else if (keyboard.IsKeyPressed(Keys.S))
         {
-            _controlledobject.Move(_controlledobject.Position + Direction.Down, _map.SurfaceObject);
+            _map.UserControlledObject.Move(_map.UserControlledObject.Position + Direction.Down, _map);
+            handeled = true;
         }
         if (keyboard.IsKeyPressed(Keys.A))
         {
-            _controlledobject.Move(_controlledobject.Position + Direction.Left, _map.SurfaceObject);
+            _map.UserControlledObject.Move(_map.UserControlledObject.Position + Direction.Left, _map);
+            handeled = true;
         }
         else if (keyboard.IsKeyPressed(Keys.D))
         {
-            _controlledobject.Move(_controlledobject.Position + Direction.Right, _map.SurfaceObject);
+            _map.UserControlledObject.Move(_map.UserControlledObject.Position + Direction.Right, _map);
+            handeled = true;
         }
         return handeled;
     }
