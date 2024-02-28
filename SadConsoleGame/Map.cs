@@ -74,7 +74,17 @@ namespace SadConsoleGame
         }
         public bool trygetmapobjekt(Point position, [NotNullWhen(true)] out Gameobjekt? gameobjekt)
         {
+            foreach (var othergameobjekts in _mapobjekts)
+            {
+                if (othergameobjekts.Position == position)
+                {
+                    gameobjekt = othergameobjekts;
+                    return true;
+                }
 
+            }
+                gameobjekt = null;
+                return false;
         }
     }
 }

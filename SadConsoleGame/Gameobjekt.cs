@@ -29,6 +29,14 @@ namespace SadConsoleGame
         public bool Move(Point newPosition, Map map)
         {
             if (!map.SurfaceObject.Surface.IsValidCell(newPosition.X, newPosition.Y)) return false;
+            if (map.trygetmapobjekt(newPosition, out Gameobjekt foundobjekt))
+            {
+                if (!foundobjekt.touched(this, map))
+                {
+                    return false;
+                }
+            }
+
             _mapApperance.CopyAppearanceTo(map.SurfaceObject.Surface[Position]);
             map.SurfaceObject.Surface[newPosition].CopyAppearanceTo(_mapApperance);
 
