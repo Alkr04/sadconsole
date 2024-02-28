@@ -27,8 +27,11 @@ namespace SadConsoleGame
 
             UserControlledObject = new Gameobjekt(new ColoredGlyph(Color.White, Color.Black, 2), _mapSurface.Surface.Area.Center, _mapSurface);
 
-            CreateTreasure();
-            CreateMonster();
+            for (int i = 0; i < 5; i++)
+            {
+                CreateTreasure();
+                CreateMonster();
+            }
         }
 
         private void FillBackground()
@@ -53,7 +56,7 @@ namespace SadConsoleGame
                 bool foundobjekt = _mapobjekts.Any(obj => obj.Position == randomPosition);
                 if (foundobjekt) continue;
 
-                Gameobjekt treasur = new Gameobjekt(new ColoredGlyph(Color.Yellow, Color.Black, 'v'), randomPosition, _mapSurface);
+                Treasure treasur = new Treasure(randomPosition, _mapSurface);
                 _mapobjekts.Add(treasur);
                 break;
             }
@@ -67,7 +70,7 @@ namespace SadConsoleGame
                 bool foundobjekt = _mapobjekts.Any(obj => obj.Position == randomPosition);
                 if (foundobjekt) continue;
 
-                Gameobjekt monster = new Gameobjekt(new ColoredGlyph(Color.Red, Color.Black, 'M'), randomPosition, _mapSurface);
+                Monster monster = new Monster(randomPosition, _mapSurface);
                 _mapobjekts.Add(monster);
                 break;
             }
@@ -85,6 +88,14 @@ namespace SadConsoleGame
             }
                 gameobjekt = null;
                 return false;
+        }
+        public void RemoveMapObjekt(Gameobjekt mapobjekt)
+        {
+            if (_mapobjekts.Contains(mapobjekt))
+            {
+                _mapobjekts.Remove(mapobjekt);
+                mapobjekt.RestoreMap(this);
+            }
         }
     }
 }

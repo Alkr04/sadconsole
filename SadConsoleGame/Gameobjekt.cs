@@ -49,6 +49,8 @@ namespace SadConsoleGame
         {
             return false;
         }
+        public void RestoreMap(Map map) =>
+            _mapApperance.CopyAppearanceTo(map.SurfaceObject.Surface[Position]);
 
     }
 }
